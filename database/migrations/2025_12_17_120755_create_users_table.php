@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role')->default('user');
+            $table->string('avatar_url')->nullable();
+            $table->string('avatar_public_id')->nullable();
             $table->timestamps();
         });
     }

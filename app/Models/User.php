@@ -21,6 +21,8 @@ class User extends Model
     ];
     protected $attributes = [
     'role' => 'user',
+    'avatar_url' => null,
+    'avatar_public_id' => null,
 ];
 }
 

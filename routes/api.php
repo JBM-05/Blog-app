@@ -11,4 +11,5 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')
     ->get('/check-auth', [AuthController::class, 'checkAuth']);
 
-
+Route::middleware('auth:sanctum')
+    ->put('/updateProfile', [AuthController::class, 'updateProfile']);

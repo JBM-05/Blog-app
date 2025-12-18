@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Lib\Util;
 use Illuminate\Support\Facades\Hash;
+use App\Services\CloudinaryService;
 class AuthController extends Controller
 {
     public function signup(Request $request){
@@ -74,6 +75,54 @@ return response()->json([
     return response()->json([
         'message' => 'Authenticated',
         'user' => $request->user(),
+    ]);
+   }
+   public function updateProfile(Request $request){
+    $user = $request->user();
+
+    $validatedData = $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
+        'password' => 'sometimes|required|string|min:8',
+        'avatar' => 'sometimes|required|image|max:2048',
+    ]);
+
+    if (isset($validatedData['name'])) {
+        $user->name = $validatedData['name'];
+    }
+    if (isset($validatedData['email'])) {
+        $user->email = $validatedData['email'];
+    }
+    if (isset($validatedData['password'])) {
+        $user->password = bcrypt($validatedData['password']);
+    }
+    if (isset($validatedData['avatar'])) {
+    // Delete old avatar
+    CloudinaryService::delete($user->avatar_public_id);
+
+    // Upload new avatar
+    $upload = CloudinaryService::upload(
+        $request->file('avatar'),
+        'avatars',
+        [
+            'transformation' => [
+                'width' => 300,
+                'height' => 300,
+                'crop' => 'fill',
+                'gravity' => 'face',
+            ],
+        ]
+    );
+
+    $user->avatar_url = $upload['url'];
+    $user->avatar_public_id = $upload['public_id'];
+    }
+
+    $user->save();
+
+    return response()->json([
+        'message' => 'Profile updated successfully',
+        'user' => $user,
     ]);
    }
 }

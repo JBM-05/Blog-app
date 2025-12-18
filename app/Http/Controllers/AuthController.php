@@ -104,14 +104,6 @@ return response()->json([
     $upload = CloudinaryService::upload(
         $request->file('avatar'),
         'avatars',
-        [
-            'transformation' => [
-                'width' => 300,
-                'height' => 300,
-                'crop' => 'fill',
-                'gravity' => 'face',
-            ],
-        ]
     );
 
     $user->avatar_url = $upload['url'];

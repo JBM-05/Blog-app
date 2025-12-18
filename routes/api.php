@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
-use App\Http\Middleware\AdminOnly;
+use App\Http\Controllers\PostController;
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -19,3 +19,7 @@ Route::middleware(['auth:sanctum', 'admin'])
     ->post('/addCategory', [CategoryController::class, 'store']);
 Route::middleware(['auth:sanctum', 'admin'])
     ->delete('/deleteCategory', [CategoryController::class, 'destroy']);
+Route::middleware('auth:sanctum')
+    ->post('/createPost', [PostController::class, 'store']);
+Route::middleware('auth:sanctum')
+    ->get('/getPosts', [PostController::class, 'show']);

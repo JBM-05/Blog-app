@@ -97,7 +97,6 @@ return response()->json([
         $user->password = bcrypt($validatedData['password']);
     }
     if (isset($validatedData['avatar'])) {
-    // Delete old avatar
     CloudinaryService::delete($user->avatar_public_id);
 
     // Upload new avatar

@@ -99,7 +99,7 @@ return response()->json([
     if (isset($validatedData['avatar'])) {
     CloudinaryService::delete($user->avatar_public_id);
 
-    // Upload new avatar
+
     $upload = CloudinaryService::upload(
         $request->file('avatar'),
         'avatars',

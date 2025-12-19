@@ -41,9 +41,15 @@ if ($categories->isEmpty()) {
     public function destroy(Request $request)
     {
            $validated = $request->validate([
-            'slug' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
         ]);
-        $category = Category::where('slug', Str::slug($validated['slug']))->firstOrFail();
+
+        $category = Category::where('slug', Str::slug($validated['name']))->firstOrFail();
+        if ($category->posts()->exists()) {
+        return response()->json([
+            'message' => 'Cannot delete category because it has related posts.'
+        ], 409);
+    }
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully'], 200);
 

@@ -23,3 +23,7 @@ Route::middleware('auth:sanctum')
     ->post('/createPost', [PostController::class, 'store']);
 Route::middleware('auth:sanctum')
     ->get('/getPosts', [PostController::class, 'show']);
+Route::middleware('auth:sanctum')
+    ->put('/posts/{post}', [PostController::class, 'update']);
+Route::middleware('auth:sanctum')
+    ->delete('/posts/{post}', [PostController::class, 'destroy']);

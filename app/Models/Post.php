@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Jobs\SendNewPostNotification;
 class Post extends Model
 {
     protected $fillable = [
@@ -33,6 +33,9 @@ class Post extends Model
     {
         static::deleting(function ($post) {
             $post->comments()->delete();
+        });
+         static::created(function ($post) {
+            SendNewPostNotification::dispatch($post);
         });
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    // Get all notifications
+
     public function index(Request $request)
     {
         return response()->json(
@@ -14,7 +14,6 @@ class NotificationController extends Controller
         );
     }
 
-    // Get unread notifications only
     public function unread(Request $request)
     {
         return response()->json(
@@ -22,7 +21,7 @@ class NotificationController extends Controller
         );
     }
 
-    
+
     public function markAsRead(Request $request, $id)
     {
         $notification = $request->user()
@@ -37,7 +36,7 @@ class NotificationController extends Controller
         ]);
     }
 
-    // Mark all notifications as read
+    
     public function markAllAsRead(Request $request)
     {
         $request->user()

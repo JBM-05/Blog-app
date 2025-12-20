@@ -18,9 +18,6 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    /* -----------------------------
-     | Author
-     |------------------------------*/
     public function user()
     {
         return $this->belongsTo(User::class);

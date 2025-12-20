@@ -105,9 +105,9 @@ $user = $request->user();
   if (isset($validatedData['image'])) {
 
 
-        CloudinaryService::delete($post->featured_image_public_id);
-
-
+       if ($post->featured_image_public_id) {
+    CloudinaryService::delete($post->featured_image_public_id);
+}
     $upload = CloudinaryService::upload(
         $validatedData['image'],
         'posts'

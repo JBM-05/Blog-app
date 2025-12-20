@@ -111,7 +111,7 @@ public function replies(Comment $comment)
 {
     $user = $request->user();
 
-    // Get the post owner (works for polymorphic)
+    
     $postOwnerId = null;
     if ($comment->commentable && property_exists($comment->commentable, 'id')) {
         $postOwnerId = $comment->commentable->user_id;

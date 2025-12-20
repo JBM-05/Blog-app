@@ -22,7 +22,7 @@ class NotificationController extends Controller
         );
     }
 
-    // Mark one notification as read
+    
     public function markAsRead(Request $request, $id)
     {
         $notification = $request->user()

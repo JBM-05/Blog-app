@@ -65,7 +65,6 @@ class AuthController extends Controller
     ], 200)->withCookie($expiredCookie);
 
 }
-
 return response()->json([
     'message' => 'There is no token.'
 ], 200);

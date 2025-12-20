@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Lib\Util;
 use Illuminate\Support\Facades\Hash;
 use App\Services\CloudinaryService;
+use Illuminate\Support\Facades\Cookie;
 class AuthController extends Controller
 {
     public function signup(Request $request){
@@ -27,7 +27,7 @@ class AuthController extends Controller
     $expirationMinutes = 10080;
 
 
-    $cookie = Util::create($token, $expirationMinutes, 'none');
+    $cookie = Cookie::make('api_token', $token, $expirationMinutes, null, null, false, true);
         return response()->json([
             'message' => 'Signup successful',
             'user' => $user,
@@ -49,7 +49,7 @@ class AuthController extends Controller
         }
         $token = $user->createToken('auth_token')->plainTextToken;
         $expirationMinutes = 10080;
-    $cookie = Util::create($token, $expirationMinutes, 'none');
+    $cookie = Cookie::make('api_token', $token, $expirationMinutes, null, null, false, true);
         return response()->json([
             'message' => 'Login successful',
             'user' => $user,
@@ -58,7 +58,7 @@ class AuthController extends Controller
    public function logout(Request $request){
    if ($request->cookie('api_token')) {
 
-    $expiredCookie = Util::forget();
+    $expiredCookie = Cookie::forget('api_token');
 
     return response()->json([
         'message' => 'Successfully logged out.'
@@ -66,7 +66,6 @@ class AuthController extends Controller
 
 }
 
-// no cookie case
 return response()->json([
     'message' => 'There is no token.'
 ], 200);

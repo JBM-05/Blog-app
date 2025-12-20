@@ -13,7 +13,7 @@ class NewPostNotification extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ['database']; // or ['mail', 'database']
+        return ['database'];
     }
 
     public function toDatabase($notifiable)
@@ -23,14 +23,5 @@ class NewPostNotification extends Notification implements ShouldQueue
             'title' => $this->post->title,
             'message' => 'A new post has been published',
         ];
-    }
-
-    // OPTIONAL (email)
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject('New Post')
-            ->line('A new post was published')
-            ->action('View Post', url("/posts/{$this->post->id}"));
     }
 }
